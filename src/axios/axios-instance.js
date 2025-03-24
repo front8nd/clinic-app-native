@@ -2,6 +2,7 @@ import axios from "axios";
 import { getToken } from "../storage/auth";
 import emitter from "../lib/event-emit";
 import guestRoutes from "../lib/guest-routes";
+import { err } from "react-native-svg";
 
 // Axios Instance
 const axiosInstance = axios.create({
@@ -26,6 +27,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       emitter.emit("unauthorized");
+      throw new Error("Unauthorized", err);
     }
     return Promise.reject(error);
   }

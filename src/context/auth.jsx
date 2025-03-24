@@ -6,6 +6,7 @@ import {
   setToken,
   setUserData,
 } from "@/storage/auth";
+import emitter from "../lib/event-emit";
 
 const AuthContext = createContext(null);
 
@@ -13,6 +14,7 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Check Auth on Startup
   const onStartUp = async () => {
     console.log("🚀 Checking Auth on Startup...");
     setIsLoading(true);
@@ -36,18 +38,29 @@ const AuthProvider = ({ children }) => {
     onStartUp();
   }, []);
 
+  // SignIn
+
   const onSignIn = async (data) => {
     setIsAuthenticated(true);
     await setToken(data.token);
     await setUserData(data.user);
   };
 
+  // Logout
+
   const onLogout = async () => {
-    setIsLoading(true);
     setIsAuthenticated(false);
     await clearAuthStorage();
-    setIsLoading(false);
   };
+
+  // Handle Unauthorized Requests
+
+  useEffect(() => {
+    emitter.on("unauthorized", onLogout);
+    return () => {
+      emitter.off("unauthorized", onLogout);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider

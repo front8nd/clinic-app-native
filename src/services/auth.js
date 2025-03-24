@@ -5,6 +5,6 @@ export const Login = async (payload) => {
     const response = await axiosInstance.post("/login", payload);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Login failed");
+    throw new Error(error?.message || "Login failed");
   }
 };

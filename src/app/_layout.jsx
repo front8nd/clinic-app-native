@@ -16,7 +16,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <GluestackUIProvider mode="light">
           <AuthProvider>
-            <Slot />
+            <Slot screenOptions={{ headerShown: false }} />
           </AuthProvider>
         </GluestackUIProvider>
       </QueryClientProvider>

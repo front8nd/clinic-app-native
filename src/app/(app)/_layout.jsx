@@ -15,5 +15,5 @@ export default function AppLayout() {
   if (!isAuthenticated) {
     return <Redirect href="/login" />;
   }
-  return <Stack />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

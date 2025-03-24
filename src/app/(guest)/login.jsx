@@ -53,10 +53,6 @@ export default function Index() {
         secureTextEntry
       />
 
-      <Link href="/" replace>
-        bypass
-      </Link>
-
       <Button
         disabled={isPending}
         title={isPending ? "Loading..." : "Login"}

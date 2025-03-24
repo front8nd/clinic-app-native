@@ -16,5 +16,5 @@ export default function GuestLayout() {
     return <Redirect href="/" />;
   }
 
-  return <Stack />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
