@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../storage/auth";
-import emitter from "../lib/event-emit";
-import guestRoutes from "../constants/guest-routes";
+import emitter from "@/lib/event-emit";
+import { GUEST_ROUTES } from "@/constants/routes";
 import { err } from "react-native-svg";
 
 // Axios Instance
@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     const token = await getToken();
-    if (!guestRoutes.some((path) => config.url.includes(path)) && token) {
+    if (!GUEST_ROUTES.some((path) => config.url.includes(path)) && token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

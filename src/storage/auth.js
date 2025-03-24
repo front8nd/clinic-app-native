@@ -47,7 +47,14 @@ export const setUserData = async (userData) => {
 export const getUserData = async () => {
   try {
     const data = await SecureStore.getItemAsync(USER_DATA_KEY);
-    return data ? JSON.parse(data) : null;
+    if (!data) return null;
+
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      console.error("❌ Error parsing user data:", error);
+      return null;
+    }
   } catch (error) {
     console.error("❌ Error retrieving user data:", error);
     return null;
@@ -63,8 +70,12 @@ export const deleteUserData = async () => {
   }
 };
 
-/* 🔹 Clear All Data (Token + User Data) 🔹 */
+/* 🔹 Clear All Data (Token + User Data) - Parallel Execution 🔹 */
 export const clearAuthStorage = async () => {
-  await deleteToken();
-  await deleteUserData();
+  try {
+    await Promise.all([deleteToken(), deleteUserData()]);
+    console.log("🗑️ Cleared all auth storage.");
+  } catch (error) {
+    console.error("❌ Error clearing auth storage:", error);
+  }
 };

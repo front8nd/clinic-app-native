@@ -53,6 +53,8 @@ export default function Index() {
         secureTextEntry
       />
 
+      <Link href="/">LINK</Link>
+
       <Button
         disabled={isPending}
         title={isPending ? "Loading..." : "Login"}
