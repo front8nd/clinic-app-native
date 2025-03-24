@@ -5,7 +5,7 @@ import {
   getUserData,
   setToken,
   setUserData,
-} from "../storage/auth";
+} from "@/storage/auth";
 
 const AuthContext = createContext(null);
 

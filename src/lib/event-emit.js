@@ -1,5 +1,5 @@
-import { EventEmitter as Emitter } from "events";
+import mitt from "mitt";
 
-const eventBus = new Emitter();
+const emitter = mitt();
 
-export default eventBus;
+export default emitter;

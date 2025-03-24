@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getToken } from "../storage/auth";
-import eventBus from "../lib/event-emit";
+import emitter from "../lib/event-emit";
 import guestRoutes from "../lib/guest-routes";
 
 // Axios Instance
@@ -25,7 +25,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      eventBus.emit("unauthorized");
+      emitter.emit("unauthorized");
     }
     return Promise.reject(error);
   }
