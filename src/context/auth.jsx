@@ -7,14 +7,13 @@ import {
   setUserData,
 } from "@/storage/auth";
 import emitter from "../lib/event-emit";
-import { useRouter, useSegments } from "expo-router";
+import { Redirect, useSegments } from "expo-router";
 import { GUEST_ROUTES } from "../constants/routes";
 import { ActivityIndicator } from "react-native";
 
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
-  const router = useRouter();
   const segments = useSegments();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -75,9 +74,9 @@ const AuthProvider = ({ children }) => {
 
     const currentPath = `/${segments.join("/")}`;
     if (isAuthenticated && GUEST_ROUTES.includes(currentPath)) {
-      router.replace("/"); // Redirect authenticated users away from guest pages
+      <Redirect href="/" replace />; // Redirect authenticated users away from guest pages
     } else if (!isAuthenticated && !GUEST_ROUTES.includes(currentPath)) {
-      router.replace("/login"); // Redirect unauthenticated users ONLY IF they are not already on a guest page
+      <Redirect href="/login" replace />; // Redirect unauthenticated users ONLY IF they are not already on a guest page
     }
   }, [isAuthenticated, isLoading, segments]);
 
