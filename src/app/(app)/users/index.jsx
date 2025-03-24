@@ -8,7 +8,7 @@ export default function Index() {
     queryFn: users,
   });
 
-  console.log(status);
+  console.log(data);
   return (
     <View>
       <Text>You're Viewing Users List</Text>

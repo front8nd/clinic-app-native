@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../storage/auth";
 import emitter from "../lib/event-emit";
-import guestRoutes from "../lib/guest-routes";
+import guestRoutes from "../constants/guest-routes";
 import { err } from "react-native-svg";
 
 // Axios Instance
