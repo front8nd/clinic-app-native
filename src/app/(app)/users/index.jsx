@@ -3,6 +3,7 @@ import { users } from "@/services/users";
 
 import { useMemo } from "react";
 import CustomTable from "../../../components/table";
+import columns from "./columns";
 
 export default function Index() {
   const { data, isPending, error } = useQuery({
@@ -10,7 +11,14 @@ export default function Index() {
     queryFn: users,
   });
 
-  const columns = useMemo(() => data, [data]);
-  console.log(columns);
-  return <CustomTable data={data} columns={columns} isPending={isPending} />;
+  const tableData = useMemo(() => data, [data]);
+  const tableColumns = columns;
+  console.log(isPending);
+  return (
+    <CustomTable
+      tableData={tableData}
+      tableColumns={tableColumns}
+      isPending={isPending}
+    />
+  );
 }

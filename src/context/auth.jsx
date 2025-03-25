@@ -7,7 +7,7 @@ import {
   setUserData,
 } from "@/storage/auth";
 import emitter from "../lib/event-emit";
-import { Redirect, useSegments } from "expo-router";
+import { Redirect, useRouter, useSegments } from "expo-router";
 import { GUEST_ROUTES } from "../constants/routes";
 import { ActivityIndicator } from "react-native";
 
@@ -15,6 +15,7 @@ const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const segments = useSegments();
+  const router = useRouter();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,10 +74,13 @@ const AuthProvider = ({ children }) => {
     if (isLoading) return;
 
     const currentPath = `/${segments.join("/")}`;
-    if (isAuthenticated && GUEST_ROUTES.includes(currentPath)) {
-      <Redirect href="/" replace />; // Redirect authenticated users away from guest pages
-    } else if (!isAuthenticated && !GUEST_ROUTES.includes(currentPath)) {
-      <Redirect href="/login" replace />; // Redirect unauthenticated users ONLY IF they are not already on a guest page
+
+    if (!isAuthenticated && !GUEST_ROUTES.includes(currentPath)) {
+      console.log("🚨 Redirecting unauthenticated user to login... 🚨");
+      router.replace("/login"); // Unauthenticated users should go to login
+    } else if (isAuthenticated && GUEST_ROUTES.includes(currentPath)) {
+      console.log("🚨 Redirecting authenticated user to home... 🚨");
+      router.replace("/"); // Authenticated users should avoid guest pages
     }
   }, [isAuthenticated, isLoading, segments]);
 
