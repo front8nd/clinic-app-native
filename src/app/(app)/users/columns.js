@@ -21,6 +21,8 @@ const columns = [
         {info.getValue()}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("email", {
     id: "email",
@@ -32,6 +34,8 @@ const columns = [
         {info.getValue()}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("role", {
     id: "role",
@@ -43,6 +47,8 @@ const columns = [
         {info.getValue()}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("specialization", {
     id: "specialization",
@@ -56,6 +62,8 @@ const columns = [
         {info.getValue() || "-"}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("staffRole", {
     id: "staffRole",
@@ -67,6 +75,8 @@ const columns = [
         {info.getValue() || "-"}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("experience", {
     id: "experience",
@@ -80,6 +90,8 @@ const columns = [
         {info.getValue()}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("dob", {
     id: "dob",
@@ -98,6 +110,8 @@ const columns = [
           -
         </Text>
       ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("birthYear", {
     id: "birthYear",
@@ -109,6 +123,8 @@ const columns = [
         {info.getValue() || "-"}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("contact", {
     id: "contact",
@@ -120,6 +136,8 @@ const columns = [
         {info.getValue() || "-"}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("address", {
     id: "address",
@@ -131,6 +149,8 @@ const columns = [
         {info.getValue() || "-"}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("createdAt", {
     id: "createdAt",
@@ -142,6 +162,8 @@ const columns = [
         {new Date(info.getValue()).toLocaleString()}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
   columnHelper.accessor("updatedAt", {
     id: "updatedAt",
@@ -153,6 +175,8 @@ const columns = [
         {new Date(info.getValue()).toLocaleString()}
       </Text>
     ),
+    sortUndefined: "last",
+    sortDescFirst: false,
   }),
 ];
 

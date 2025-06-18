@@ -1,9 +1,15 @@
-import React from "react";
-import { ActivityIndicator, ScrollView, Text } from "react-native";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import {
   useReactTable,
   getCoreRowModel,
   flexRender,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -16,10 +22,15 @@ import {
 } from "@/components/gluestack/table";
 
 export default function CustomTable({ tableData, tableColumns, isPending }) {
+  const [sorting, setSorting] = useState([]);
+
   const table = useReactTable({
     columns: tableColumns,
     data: tableData || [],
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: { sorting },
+    onSortingChange: setSorting,
   });
 
   return (
@@ -29,24 +40,41 @@ export default function CustomTable({ tableData, tableColumns, isPending }) {
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <Table className="min-w-full border border-gray-300">
-        {/* Table Header */}
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  colSpan={header.colSpan}
-                  className="border border-b-0 border-gray-400 bg-gray-100 p-2 text-sm font-bold text-center"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const canSort = header.column.getCanSort();
+                const sortingOrder = header.column.getIsSorted();
+                return (
+                  <TableHead
+                    className="border border-gray-400 bg-gray-100 p-2 text-sm font-bold text-center text-nowrap min-w-32 w-fit"
+                    key={header.id}
+                    colSpan={header.colSpan}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <TouchableOpacity
+                        disabled={!canSort}
+                        onPress={header.column.getToggleSortingHandler()}
+                      >
+                        <Text
+                          className={`flex justify-start items-start gap-2 text-sm font-bold text-nowrap min-w-42 w-full`}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}{" "}
+                          {sortingOrder === "asc"
+                            ? " 🔼"
+                            : sortingOrder === "desc"
+                            ? " 🔽"
+                            : ""}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </TableHead>
+                );
+              })}
             </TableRow>
           ))}
         </TableHeader>
@@ -68,7 +96,7 @@ export default function CustomTable({ tableData, tableColumns, isPending }) {
                 {row.getVisibleCells().map((cell) => (
                   <TableData
                     key={cell.id}
-                    className="border border-b-0 border-gray-400 p-2 text-sm text-center"
+                    className="border border-b-0 border-gray-400 p-2 text-sm text-center text-nowrap min-w-32 w-fit"
                   >
                     <Text numberOfLines={1} ellipsizeMode="tail">
                       {flexRender(
